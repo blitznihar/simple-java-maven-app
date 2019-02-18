@@ -8,10 +8,7 @@ pipeline {
         }
         stage('SonarQube analysis') {
             steps {
-                withSonarQubeEnv('JenkinsInstalledSonarQubeScanner') {
-                  // requires SonarQube Scanner for Maven 3.2+
                 sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.3.0.1492:sonar'
-                }
             }
         }
         stage("Quality Gate") {
