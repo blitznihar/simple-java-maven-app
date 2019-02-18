@@ -6,7 +6,6 @@ pipeline {
                 git url: 'https://github.com/blitznihar/simple-java-maven-app.git'
             }
         }
-    stages {
         stage('SonarQube analysis') {
             steps {
                 withSonarQubeEnv('My SonarQube Server') {
