@@ -2,9 +2,11 @@ pipeline {
     agent any
     stages {
         stage('SonarQube analysis') {
-            withSonarQubeEnv('My SonarQube Server') {
+            steps {
+                withSonarQubeEnv('My SonarQube Server') {
                   // requires SonarQube Scanner for Maven 3.2+
                 sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.3.0.1492:sonar'
+                }
             }
         }
         stage("Quality Gate") {
