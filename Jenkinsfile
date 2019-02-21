@@ -47,10 +47,11 @@ pipeline {
                     }
                     """
                     def buildInfo = Artifactory.newBuildInfo() 
+                    buildInfo.env.capture = true 
+                    buildInfo=server.upload(uploadSpec) 
+                    server.publishBuildInfo(buildInfo) 
                 }
-                buildInfo.env.capture = true 
-                buildInfo=server.upload(uploadSpec) 
-                server.publishBuildInfo(buildInfo) 
+
              }
         }
     }
