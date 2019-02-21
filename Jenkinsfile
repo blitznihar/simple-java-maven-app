@@ -1,5 +1,6 @@
 pipeline {
     agent any
+    
      stages {
         stage('SCM') {
             steps {
@@ -31,20 +32,22 @@ pipeline {
         }
         stage ('Distribute binaries') { 
              steps {
-                def SERVER_ID = 'JFROG' 
-                def server = Artifactory.server SERVER_ID
-                def uploadSpec = 
-                """
-                {
-                "files": [
+                script {
+                    def SERVER_ID = 'JFROG' 
+                    def server = Artifactory.server SERVER_ID
+                    def uploadSpec = 
+                    """
                     {
-                        "pattern": "all/target/all-(*).jar",
-                        "target": "libs-snapshots-local/com/mycompany/app/{1}/"
+                    "files": [
+                        {
+                            "pattern": "all/target/all-(*).jar",
+                            "target": "libs-snapshots-local/com/mycompany/app/{1}/"
+                        }
+                    ]
                     }
-                ]
+                    """
+                    def buildInfo = Artifactory.newBuildInfo() 
                 }
-                """
-                def buildInfo = Artifactory.newBuildInfo() 
                 buildInfo.env.capture = true 
                 buildInfo=server.upload(uploadSpec) 
                 server.publishBuildInfo(buildInfo) 
