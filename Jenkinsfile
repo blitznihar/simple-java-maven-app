@@ -30,23 +30,25 @@ pipeline {
             }
         }
         stage ('Distribute binaries') { 
-            def SERVER_ID = 'JFROG' 
-            def server = Artifactory.server SERVER_ID
-            def uploadSpec = 
-            """
-            {
-            "files": [
+             steps {
+                def SERVER_ID = 'JFROG' 
+                def server = Artifactory.server SERVER_ID
+                def uploadSpec = 
+                """
                 {
-                    "pattern": "all/target/all-(*).jar",
-                    "target": "libs-snapshots-local/com/mycompany/app/{1}/"
+                "files": [
+                    {
+                        "pattern": "all/target/all-(*).jar",
+                        "target": "libs-snapshots-local/com/mycompany/app/{1}/"
+                    }
+                ]
                 }
-            ]
-            }
-            """
-            def buildInfo = Artifactory.newBuildInfo() 
-            buildInfo.env.capture = true 
-            buildInfo=server.upload(uploadSpec) 
-            server.publishBuildInfo(buildInfo) 
+                """
+                def buildInfo = Artifactory.newBuildInfo() 
+                buildInfo.env.capture = true 
+                buildInfo=server.upload(uploadSpec) 
+                server.publishBuildInfo(buildInfo) 
+             }
         }
     }
 }
