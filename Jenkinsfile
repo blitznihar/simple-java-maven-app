@@ -40,7 +40,11 @@ pipeline {
                     {
                     "files": [
                         {
-                            "pattern": "all/target/all-(*).jar",
+                            "pattern": "/target/(*).jar",
+                            "target": "libs-snapshots-local/com/mycompany/app/{1}/"
+                        },
+                        {
+                            "pattern": "/target/(*).war",
                             "target": "libs-snapshots-local/com/mycompany/app/{1}/"
                         }
                     ]
