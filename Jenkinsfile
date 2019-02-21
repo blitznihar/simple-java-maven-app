@@ -8,7 +8,10 @@ pipeline {
         }
         stage('SonarQube analysis') {
             steps {
-                sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.3.0.603:sonar'
+                withSonarQubeEnv('AnsibleBuiltSonarqube') {
+                    // Optionally use a Maven environment you've configured already
+                    sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.3.0.603:sonar'
+                }
             }
         }
         stage("Quality Gate") {
